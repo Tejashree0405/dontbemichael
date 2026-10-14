@@ -94,16 +94,6 @@
 **Priority:** P3
 **Depends on:** None
 
-### Read the registry once per router tick
-
-**What:** In `routeOnce`, read the registry and Pete's name once per tick, not once per outbox file.
-
-**Why:** Each outbox file asks `addressedToResearch` with a fresh `registry()` read, so a busy tick reads registry.json once per message (performance review, third ship).
-
-**Effort:** S
-**Priority:** P3
-**Depends on:** None
-
 ## Named links (from the eng review of docs/designs/named-links.md, 2026-10-11)
 
 ### Copy a link's address from a card
