@@ -157,6 +157,7 @@ import {
 } from '../shared/codexRemote';
 import { canRelaunch, restartApp } from './restart';
 import { PromptSubmits, confirmSubmit } from '../shared/submitConfirm';
+import { DEFAULT_COPY_LINK_LABEL, cleanMenuLabel, copyableLinkText } from '../shared/linkMenu';
 
 const isDev = !!process.env.ELECTRON_RENDERER_URL;
 
@@ -3218,6 +3219,15 @@ ipcMain.handle('hire:openFile', async () => {
   };
 });
 
+// The "Copy link address" label in the owner's language. The language lives in
+// the renderer, so it sends the translated label on start and on every switch;
+// until then, and for anything that is not a short plain label, English stays.
+let copyLinkLabel = DEFAULT_COPY_LINK_LABEL;
+ipcMain.on('app:linkMenuLabel', (_evt, raw: unknown) => {
+  const label = cleanMenuLabel(raw);
+  if (label) copyLinkLabel = label;
+});
+
 /**
  * Create the office window: it restores saved geometry, uses the default
  * session, runs the hive, and keeps the app-quit warning. (A second "floor"
@@ -3333,6 +3343,17 @@ function createWindow(): BrowserWindow {
   win.webContents.setWindowOpenHandler(({ url }) => {
     if (/^https?:\/\//i.test(url)) shell.openExternal(url);
     return { action: 'deny' };
+  });
+
+  // Right-click on a link offers "Copy link address" (named links show a name,
+  // so selecting the text copies the name, not the address). Only web and mail
+  // links get the menu; anywhere else right-click does what it did before.
+  win.webContents.on('context-menu', (_e, params) => {
+    const text = copyableLinkText(params.linkURL);
+    if (!text) return;
+    Menu.buildFromTemplate([
+      { label: copyLinkLabel, click: () => clipboard.writeText(text) }
+    ]).popup({ window: win });
   });
 
   // A link or a dropped file must never replace the app with another page: a

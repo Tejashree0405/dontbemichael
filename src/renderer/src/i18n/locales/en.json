@@ -17,7 +17,8 @@
     "tokens": "tokens",
     "restarting": "restarting…",
     "add": "add",
-    "clear": "Clear"
+    "clear": "Clear",
+    "copyLinkAddress": "Copy link address"
   },
   "commandBar": {
     "free": "free",

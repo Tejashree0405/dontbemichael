@@ -17,7 +17,8 @@
     "tokens": "令牌",
     "restarting": "重启中…",
     "add": "添加",
-    "clear": "清除"
+    "clear": "清除",
+    "copyLinkAddress": "复制链接地址"
   },
   "commandBar": {
     "free": "自由",

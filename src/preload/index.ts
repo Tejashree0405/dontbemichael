@@ -723,6 +723,9 @@ const api = {
   /** A terminal still drawn past its box after a fit: sizes only, to the office log. */
   logTerminalOverflow: (info: Record<string, number | string>): void =>
     ipcRenderer.send('terminal:overflow', info),
+  /** The right-click "Copy link address" label, in the language the owner picked. */
+  setLinkMenuLabel: (label: string): void =>
+    ipcRenderer.send('app:linkMenuLabel', label),
   killPty: (id: string): Promise<{ ok: boolean; error?: string }> =>
     ipcRenderer.invoke('pty:kill', id),
   listPtys: (): Promise<Array<{

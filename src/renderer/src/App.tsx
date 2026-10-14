@@ -10,6 +10,7 @@ import { FileTabView } from '@/components/FileTabView';
 import { MemoryGraphPanel } from '@/components/MemoryGraphPanel';
 import { useHive } from '@/hooks/useHive';
 import { useGodNameSync } from '@/i18n/useGodNameSync';
+import { useLinkMenuLabelSync } from '@/i18n/useLinkMenuLabelSync';
 import { useDirectionSync } from '@/i18n/useDirection';
 import { useArabicTerminalSync } from '@/terminal/useArabicTerminalSync';
 import { AgentDetailPanel } from '@/components/AgentDetailPanel';
@@ -52,6 +53,8 @@ export function App() {
   useDirectionSync();
   // Let terminals that are ALREADY open follow a language switch too.
   useArabicTerminalSync();
+  // Right-click "Copy link address" follows the language too.
+  useLinkMenuLabelSync();
   const agent = useStore(selectedAgent);
   const agents = useStore(s => s.agents);
   const agentCount = agents.length;

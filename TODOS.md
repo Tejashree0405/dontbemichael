@@ -104,24 +104,6 @@
 **Priority:** P3
 **Depends on:** None
 
-## Named links (from the eng review of docs/designs/named-links.md, 2026-10-11)
-
-### Copy a link's address from a card
-
-**What:** A right-click "Copy link address" on links in the app's rendered markdown.
-
-**Why:** Named links (docs/designs/named-links.md) show "HubSpot" instead of the raw URL, so selecting the text copies the name, not the address. The app has no context menu (`src/main/index.ts` sets `setWindowOpenHandler` and `will-navigate` handlers, no `context-menu`), so an owner who forwards a record link has to open it and copy it from the browser.
-
-**Pros:** One step to share a link again; works app wide, not only on cards.
-
-**Cons:** New main-process menu code and a translated label in en, ar and zh-CN for a rare need.
-
-**Context:** Accepted as a TODO in the eng review (D4, owner 2026-10-11) to keep the named links change display only. Start with `webContents.on('context-menu')`: Electron passes `params.linkURL`; show one item only when it is an `http`, `https` or `mailto` link, and write it with `clipboard.writeText`.
-
-**Effort:** S
-**Priority:** P3
-**Depends on:** Named links shipped.
-
 ## Terminal links (from the ship review of mit/named-links, 2026-10-13)
 
 ### A quoted phrase that starts with a slash links as a path

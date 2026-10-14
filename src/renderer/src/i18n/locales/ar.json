@@ -17,7 +17,8 @@
     "tokens": "رموز",
     "restarting": "جارٍ إعادة التشغيل…",
     "add": "إضافة",
-    "clear": "مسح"
+    "clear": "مسح",
+    "copyLinkAddress": "نسخ عنوان الرابط"
   },
   "commandBar": {
     "free": "حر",
