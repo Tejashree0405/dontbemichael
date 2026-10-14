@@ -77,7 +77,12 @@ export type PathAction = 'preview' | 'edit' | 'reveal';
  */
 // Only explicit path prefixes qualify for a whole quoted match; otherwise prose
 // such as "Update README.md" must fall through to the filename inside it.
-const PATH_TOKEN_RE = /"(?:[A-Za-z]:[\\/]|~[\\/]|\.{1,2}[\\/]|[\\/])[^"\r\n]*\.[A-Za-z][A-Za-z0-9]{0,7}(?::\d+)?"|'(?:[A-Za-z]:[\\/]|~[\\/]|\.{1,2}[\\/]|[\\/])[^'\r\n]*\.[A-Za-z][A-Za-z0-9]{0,7}(?::\d+)?'|`(?:[A-Za-z]:[\\/]|~[\\/]|\.{1,2}[\\/]|[\\/])[^`\r\n]*\.[A-Za-z][A-Za-z0-9]{0,7}(?::\d+)?`|(?:[A-Za-z]:[\\/])?[A-Za-z0-9_@.~/\\+-]*[A-Za-z0-9_@~/\\+-]\.[A-Za-z][A-Za-z0-9]{0,7}(?::\d+)?/g;
+// A quoted match is also refused when whitespace touches a path separator: a
+// folder or file name never starts or ends with a space, so "/ see notes.md"
+// is prose that happens to open with a slash, and the file name inside it is
+// linked instead. Paths with spaces in their names ("/Users/Jane/My Notes.md")
+// still match whole.
+const PATH_TOKEN_RE = /"(?![^"\r\n]*?(?:\s[\\/]|[\\/]\s))(?:[A-Za-z]:[\\/]|~[\\/]|\.{1,2}[\\/]|[\\/])[^"\r\n]*\.[A-Za-z][A-Za-z0-9]{0,7}(?::\d+)?"|'(?![^'\r\n]*?(?:\s[\\/]|[\\/]\s))(?:[A-Za-z]:[\\/]|~[\\/]|\.{1,2}[\\/]|[\\/])[^'\r\n]*\.[A-Za-z][A-Za-z0-9]{0,7}(?::\d+)?'|`(?![^`\r\n]*?(?:\s[\\/]|[\\/]\s))(?:[A-Za-z]:[\\/]|~[\\/]|\.{1,2}[\\/]|[\\/])[^`\r\n]*\.[A-Za-z][A-Za-z0-9]{0,7}(?::\d+)?`|(?:[A-Za-z]:[\\/])?[A-Za-z0-9_@.~/\\+-]*[A-Za-z0-9_@~/\\+-]\.[A-Za-z][A-Za-z0-9]{0,7}(?::\d+)?/g;
 
 /** A fresh matcher. The regex is stateful (`g`), so callers must never share one. */
 export function pathTokenMatcher(): RegExp {

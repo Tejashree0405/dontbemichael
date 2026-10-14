@@ -122,20 +122,6 @@
 **Priority:** P3
 **Depends on:** Named links shipped.
 
-## Terminal links (from the ship review of mit/named-links, 2026-10-13)
-
-### A quoted phrase that starts with a slash links as a path
-
-**What:** Since #280, a whole quoted match that starts with a path prefix and ends in a file ending is linked, so quoted prose like "/ see notes.md" underlines the whole phrase and ⌘-click finds nothing.
-
-**Why:** A link that leads nowhere reads as broken.
-
-**Context:** `PATH_TOKEN_RE` in `src/shared/terminalPaths.ts`. Fix: link a quoted match only when it holds no run of two or more words before the last path separator, or check it exists before underlining (the chip path already does).
-
-**Effort:** S
-**Priority:** P3
-**Depends on:** None
-
 ## Attachments (from the Codex adversarial review of design/studio-v2, 2026-10-01)
 
 ### Keep pasted screenshots somewhere durable

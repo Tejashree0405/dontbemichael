@@ -129,6 +129,16 @@ test('quoted prose keeps linking the file name inside it', () => {
   assert.deepEqual(tokensIn("Michael's notes: see plan.md' later"), ['plan.md']);
 });
 
+test('quoted prose that opens with a slash links only the file name inside it', () => {
+  // Value: protects=a quoted phrase like "/ see notes.md" is not underlined whole, so the link leads to a real file; fails_when=any quoted match with a path prefix and a file ending is linked whole; why_new=TODOS terminal links item from the ship review of mit/named-links; seam=none
+  assert.deepEqual(tokensIn('note: "/ see notes.md"'), ['notes.md']);
+  assert.deepEqual(tokensIn("try '~/ then open plan.md'"), ['plan.md']);
+  assert.deepEqual(tokensIn('read `./ docs first, then README.md`'), ['README.md']);
+  assert.deepEqual(tokensIn('saved "C:\\ Reports go in summary.md"'), ['summary.md']);
+  // Spaces inside a folder or file name still keep the whole quoted path.
+  assert.deepEqual(tokensIn('saved "/Users/Jane/My Notes/plan for May.md"'), ['/Users/Jane/My Notes/plan for May.md']);
+});
+
 test('quoted versions and prose do not become file paths', () => {
   assert.deepEqual(tokensIn('version "v0.4.5", cost \'0.92\', called `spring.thaw`'), []);
 });
